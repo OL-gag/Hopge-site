@@ -18,7 +18,7 @@ class PracticeGeneratorForm extends React.Component{
         this.state = {
           prtTitle: "",
           prtLenght: 60,
-          prtFullIce : false,
+          prtFullIce : true,
           prtSkSkate: false,
           prtSkShoot: false,
           fprtSkStop: false
