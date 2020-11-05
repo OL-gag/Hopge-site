@@ -10,7 +10,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button';
-
+import { Redirect } from "react-router-dom";
 
 class PracticeGeneratorForm extends React.Component{
     constructor(props)  {
@@ -21,7 +21,8 @@ class PracticeGeneratorForm extends React.Component{
           prtFullIce : true,
           prtSkSkate: false,
           prtSkShoot: false,
-          fprtSkStop: false
+          fprtSkStop: false,
+          redirect: null
         };
        
         this.handleChange = this.handleChange.bind(this);
@@ -45,15 +46,30 @@ class PracticeGeneratorForm extends React.Component{
           headers: { 
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ title: this.state.prtTitle})
+          body: JSON.stringify({ 
+            title: this.state.prtTitle,
+            duration : this.state.prtLenght,
+            fullIce : this.state.prtFullIce,
+            userId : 1          
+          })
       };
-      fetch('http://localhost:3000/api/createPractice', requestOptions)
-          .then(response => response.json());
+      fetch('http://localhost:5253/api/practices/practice', requestOptions)
+        .then(response => response.json())
+        .then(data => {
+              
+          console.log("Practice Generated" + data);
+              var practiceId = data.practice_id;
+              this.setState({ redirect: "/Practice/" + practiceId });
+         
+
+           } );
           //.then(data => this.setState({ postId: data.id }));
-        console.log("Practice Generated");
+        
         event.preventDefault();
      }
      
+
+
      useStyles = makeStyles((theme) => ({
        root: {
          display: 'flex',
@@ -73,7 +89,10 @@ class PracticeGeneratorForm extends React.Component{
      }));
      
      render() {
-       return (
+      if (this.state.redirect) {
+        return <Redirect to={this.state.redirect} />
+      }
+      return (
         <div className={this.root} style={{ padding: 10 }}>
             <form onSubmit={this.handleSubmit}>
                 <Grid container spacing={2}>

@@ -1,14 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
-import Home from './pages/Home.js';
-  
+import { BrowserRouter as Router } from "react-router-dom";
+
+import RoutesHopge from './routes/routes.js'
+
+function App() {
+  return (
+    <div>
+      <RoutesHopge />
+    </div>
+  );
+}
 
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Home />
-  </React.StrictMode>,
+     <Router>
+        <App />
+      </Router>,
   document.getElementById('root')
 );
 
