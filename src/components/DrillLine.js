@@ -1,5 +1,5 @@
 import React from 'react';
-import '../index.css'
+
 import TableCell from '@material-ui/core/TableCell';
 
 import TableRow from '@material-ui/core/TableRow';

@@ -1,6 +1,6 @@
 
 import React from 'react';
-import '../index.css'
+
 import Checkbox from '@material-ui/core/Checkbox';
 import { makeStyles } from '@material-ui/core/styles';
 import FormLabel from '@material-ui/core/FormLabel';
