@@ -70,10 +70,18 @@
 
 .blue
 {
-    background-color: #276afb;
+    background-color: #a9d2d5;
     color: #fff;
     border: none;    
 }
+
+.blue:hover
+{
+    background-color: #5a2a27;
+    color: #fff;
+    border: none;    
+}
+
 
 .red
 {
