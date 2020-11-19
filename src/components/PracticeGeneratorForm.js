@@ -116,7 +116,7 @@ class PracticeGeneratorForm extends React.Component{
                     <Grid item xs={6}><TextField id="outlined-search" variant="outlined" label="Title" name="prtTitle" fullWidth  value={this.state.prtTitle} onChange={this.handleChange}/></Grid>
                     <Grid item xs={6} >
                       <p>
-                                            <TextField id="outlined-search" variant="outlined" label="Duration (minutes)" name="prtLenght" value={this.state.prtLenght} onChange={this.handleChange}/>   
+                         <TextField id="outlined-search" variant="outlined" label="Duration (minutes)" name="prtLenght" value={this.state.prtLenght} onChange={this.handleChange}/>   
                                             </p>  <p>
                         <FormControl >
                         <FormLabel> Practice Date </FormLabel>

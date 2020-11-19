@@ -1,11 +1,11 @@
 import React from 'react';
 
-import HeaderBar from '../components/header';
+import NavBar from './NavBar.js';
 import DrillLine  from '../components/DrillLine'
 
 import { themeMagic } from '../theme.js';
 import { ThemeProvider } from '@material-ui/core/styles';
-import { Container } from '@material-ui/core';
+
 
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -81,10 +81,8 @@ class Practice extends React.Component {
 
         return (
             <ThemeProvider theme={themeMagic}> 
-                <Container>              
-                    <HeaderBar />
-                </Container>
-                <Container>
+            <div className='practice'>
+                <NavBar/>
                 <TableContainer component={Paper}>
                     <Table aria-label="simple table">
                         <TableHead>
@@ -97,13 +95,9 @@ class Practice extends React.Component {
                                 { blockPat }  
                         </TableBody>
                     </Table>
-                    </TableContainer>
-                                
-                </Container>
-                <Container>
-                    Footer1
-                </Container>
-
+                </TableContainer>
+      
+            </div>    
             </ThemeProvider>
         );
     }

@@ -1,29 +1,20 @@
 import React from 'react';
-import PracticeGeneratorBox from '../components/PracticeGeneratorBox.js';
-
-import HeaderBar from '../components/header';
-
 import { themeMagic } from '../theme.js';
-import { ThemeProvider } from '@material-ui/core/styles';
-import { Container, CardHeader, Button, Menu, MenuItem } from '@material-ui/core';
+
+import NavBar from './NavBar.js'
+
+import CreatePratice from './CreatePratice.js'
+import { MuiThemeProvider } from '@material-ui/core/styles';
 
 function Home()
 {
     return (
-        <ThemeProvider theme={themeMagic}> 
-            <Container>              
-                <HeaderBar />
-                             
-            
-            </Container>
-            <Container>
-                    <PracticeGeneratorBox/>
-            </Container>
-            <Container>
-                Footer
-            </Container>
-
-        </ThemeProvider>
+        <MuiThemeProvider theme={themeMagic}>    
+        <div className='App'>
+            <NavBar/> 
+            <CreatePratice/>
+        </div>
+        </MuiThemeProvider>  
     );
 }
 

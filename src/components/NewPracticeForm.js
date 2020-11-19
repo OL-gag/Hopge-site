@@ -4,13 +4,14 @@ import {Grid, makeStyles, TextField, FormControl, FormLabel, FormControlLabel, R
 import DateFnsUtils from '@date-io/date-fns'; // choose your lib
 import { DateTimePicker, MuiPickersUtilsProvider} from '@material-ui/pickers';
 import SkillsSelection from './SkillsSelection'
+import { useHistory  } from "react-router-dom";
 //import { Button } from './Button.js'
 const initialValues = 
 {
   prtTitle : '2',
   prtDate : new Date(),
   prtDuration : 60,
-  prtFullice : true
+  prtFullice : "full"
 }
 
 const options = [
@@ -24,12 +25,21 @@ const options = [
 ];
 
 
+
 const useStyle = makeStyles(theme => ({
   root : {
       padding : '20px 0px',
         '& .MuiFormControl-root' : 
       {
         margin: theme.spacing(1)
+      },
+      '& .MuiButtonBase-root' :
+      {
+        margin: theme.spacing(1,1,1,1)
+      },
+      '& .go2646822163' :
+      {
+        margin: '0px 0px 0px 8px'
       }
   }
 
@@ -42,7 +52,37 @@ function NewPracticeForm() {
     const [selected, setSelected] = useState([]);
     const classes = useStyle();
 
+    const history = useHistory();
+
     const handleSubmit = e => {
+        // Simple POST request with a JSON body using fetch
+        const requestOptions = {
+          method: 'PUT',
+          headers: { 
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ 
+            title: values.prtTitle,
+            duration : values.prtDuration,
+            fullIce : (values.prtFullice === 'full') ? true : false,
+            userId : 1          
+          })
+      };
+      fetch('http://localhost:5253/api/practices/practice', requestOptions)
+        .then(response => response.json())
+        .then(data => {
+              
+          console.log("Practice Generated" + data);
+              var practiceId = data.practice_id;
+              return history.push("/Practice/" + practiceId);
+          
+              //this.setState({ redirect: "/Practice/" + practiceId });
+         
+
+           } );
+          //.then(data => this.setState({ postId: data.id }));
+
+
         e.preventDefault()
      
     }
@@ -50,15 +90,17 @@ function NewPracticeForm() {
     const handleInputChange = e =>
     {
         const { name, value } = e.target;
-        setValues({
-            ...values,
-            [name]: value
-        })
+        
+          setValues({
+              ...values,
+              [name]: value
+          })
+              
 
     }
 
     return (
-      <form className={classes.root}> 
+     <form className={classes.root}> 
         <Grid container>
           <Grid item xs={12}>  
               <TextField id="outlined-search" variant="outlined" label="Title" name="prtTitle" value={values.prtTitle} onChange={handleInputChange} />
@@ -75,7 +117,7 @@ function NewPracticeForm() {
               <FormLabel>
                   Ring
               </FormLabel>
-              <RadioGroup row >
+              <RadioGroup row value={values.prtFullice} name="prtFullice" onChange={handleInputChange}>
                <FormControlLabel value="full" control={<Radio color="secondary"/>} label="Full Ice"  />
                <FormControlLabel value="half" control={<Radio  color="secondary"/>} label="Half-Ice" />        
               </RadioGroup>
@@ -91,15 +133,15 @@ function NewPracticeForm() {
                         labelledBy={"Selects"}
                         overrideStrings={{"selectSomeItems": "Select Skills to work"} }  />            
 
+          </Grid> 
+          <Grid container  justify="flex-end"  alignItems="baseline">
+             <Button  variant="contained" color="secondary" onClick={handleSubmit}>
+                  Generate
+              </Button>               
           </Grid>
         </Grid>
-        <Grid item xs={12} margin-left="auto">
-            <Button  variant="contained" color="secondary" onClick={handleSubmit}>
-                Generate
-            </Button>               
-        </Grid>
-      </form>
-    );
+      </form> 
+    );      
 }
 
 export default NewPracticeForm

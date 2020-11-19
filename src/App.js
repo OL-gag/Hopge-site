@@ -7,6 +7,9 @@ import CreatePratice from './pages/CreatePratice.js'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { themeMagic } from './theme'
 
+
+
+
 function App() {
     return(  
         <MuiThemeProvider theme={themeMagic}>    
