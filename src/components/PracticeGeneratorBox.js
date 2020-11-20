@@ -4,17 +4,17 @@ import PracticeGeneratorForm from './PracticeGeneratorForm.js';
 
 function PracticeGeneratorBox() {
         return (
-            <Box 
-                display="flex" 
-                width={650} height={300} 
-                alignItems="center"
-                justifyContent="center"
-                m={2}
-                bgcolor="rgba(0, 0, 0, 0.04)"
-            >
-               < PracticeGeneratorForm/>
-             </Box>
+               < PracticeGeneratorForm/>     
         );    
 } 
 
 export default PracticeGeneratorBox;
+
+/*
+            <Box 
+                display="flex" 
+                alignItems="center"
+                justifyContent="center"
+                m={0}
+                bgcolor="#a9d2d5"
+            >*/
