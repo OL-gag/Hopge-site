@@ -24,6 +24,13 @@ const  useStyles = makeStyles((theme) => ({
       "& .MuiButtonBase-root": {
         margin: theme.spacing(1, 0, 1, 1),
       },
+      "& .makeStyles-imageView-14" :
+      {
+        display : 'flex',
+        alignItems : 'center',
+        justify : 'center',
+        flexDirection : 'column'
+      }
     },
     Container: {
         padding : '20px 20px',
@@ -53,6 +60,10 @@ const  useStyles = makeStyles((theme) => ({
     },
     topTable: {
         padding : '20px 20px',
+    },
+    ImageSection:
+    {
+        height: '200px',
     }
   }));
 
@@ -142,7 +153,7 @@ function NewDrillForm() {
 
           <Grid container spacing={0}>
             <Grid item xs={2}>
-              <Paper className={classes.field} elevation={0}>
+              <Paper className={classes.ImageSection} elevation={0}>
                 Image
               </Paper>
               <Paper className={classes.field} elevation={0}>
@@ -150,9 +161,11 @@ function NewDrillForm() {
               </Paper>
             </Grid>
             <Grid item xs={10}>
-              <Paper className={classes.field} elevation={2} color="primary">
+                <div className={classes.imageView}>
+              {/* <Paper elevation={2} color="primary"> */}
                     <ImageUploadPreview/>
-              </Paper>
+                    </div>
+              {/* </Paper> */}
               <Paper className={classes.field} elevation={2}>
                 Skills set
               </Paper>

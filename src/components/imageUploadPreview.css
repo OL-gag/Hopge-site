@@ -1,0 +1,10 @@
+.imagePreview {
+  text-align: center;
+  height: 200px;
+  width: 500px;
+  border-left: 1px solid gray;
+  border-right: 1px solid gray;
+  border-top: 5px solid gray;
+  border-bottom: 5px solid gray;
+  margin: auto;
+}

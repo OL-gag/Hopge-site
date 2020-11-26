@@ -1,6 +1,11 @@
 import React, { Component } from 'react'
 import ImageUploader from 'react-images-upload';
 import Image from 'material-ui-image'
+import  './imageUploadPreview.css'
+
+
+
+
 
 export default class ImageUploadPreview extends Component {
 
@@ -8,6 +13,9 @@ export default class ImageUploadPreview extends Component {
         super(props);
          this.state = { pictures: [] };
          this.onDrop = this.onDrop.bind(this);
+
+      
+        
     }
  
     onDrop(picture) {
@@ -26,12 +34,19 @@ export default class ImageUploadPreview extends Component {
 
         if ( this.state.pictures.length > 0)
         {
-            return (  <img src={this.state.pictures} width="300" height="150"/> )
+            return ( 
+               
+                        <img src={this.state.pictures}  
+                        className="imagePreview"></img>
+                       
+                 
+               
+                )
         }
 
         return (
 
-            <div>
+            <div className="imgUpload">
                 <ImageUploader
                   withIcon={true}
                   buttonText="Choose images"
