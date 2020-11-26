@@ -1,4 +1,6 @@
-import React from 'react'
+import React, {useState, useRef} from 'react';
+import JoditEditor from "jodit-react";
+import ImageUploadPreview from './ImageUploadPreview'
 import {
     Grid,
     makeStyles,
@@ -11,6 +13,9 @@ import {
     Button,
     Paper,
   } from "@material-ui/core";
+
+
+
 
 const  useStyles = makeStyles((theme) => ({
     root: {
@@ -58,16 +63,38 @@ function NewDrillForm() {
 
     const classes = useStyles();
 
+    var editor = useRef(null)
+	const [contentFr, setContentFr] = useState('')
+    const [contentEng, setContentEng] = useState('')
+    const [pictures, setPicture] = useState('[]')
+
+	const config = {
+        "buttons": "bold,underline,italic,|,ul,ol,|,font,fontsize,|,,\n",
+        "buttonsMD": "bold,underline,italic,|,ul,ol,|,font,fontsize,|,,\n",
+        "buttonsSM": "bold,underline,italic,|,ul,ol,|,font,fontsize,|,,\n",
+        "buttonsXS": "bold,underline,italic",
+        toolbarAdaptive : true       
+    }
+ 
+
     return (
       <form className={classes.root}>
         <Grid container spacing={0}>
           <Grid item xs={2}>
-            <Paper className={classes.topTable} elevation={0}>Champs</Paper>
-            <Paper className={classes.label} elevation={0}>Titre</Paper>
-            <Paper className={classes.label} elevation={0}>Description</Paper>
+            <Paper className={classes.topTable} elevation={0}>
+              Champs
+            </Paper>
+            <Paper className={classes.label} elevation={0}>
+              Titre
+            </Paper>
+            <Paper className={classes.label} elevation={0}>
+              Description
+            </Paper>
           </Grid>
           <Grid item xs>
-            <Paper className={classes.topTable} elevation={0}>Français</Paper>
+            <Paper className={classes.topTable} elevation={0}>
+              Français
+            </Paper>
             <Paper className={classes.field} elevation={0}>
               <TextField
                 id="outlined-search"
@@ -78,19 +105,20 @@ function NewDrillForm() {
               />
             </Paper>
             <Paper className={classes.field} elevation={0}>
-              <TextField
-                id="filled-multiline-static"
-                variant="outlined"
-                label="Description"
-                name="DescriptionFr"
-                multiline
-                rows={4}
-                fullWidth
+              <JoditEditor
+                ref={editor}
+                value={contentFr}
+                config={config}
+                tabIndex={1} // tabIndex of textarea
+                onBlur={(newContent) => setContentFr(newContent)} // preferred to use only this option to update the content for performance reasons
+                onChange={(newContent) => {}}
               />
             </Paper>
           </Grid>
           <Grid item xs>
-            <Paper className={classes.topTable} elevation={0}>Anglais</Paper>
+            <Paper className={classes.topTable} elevation={0}>
+              Anglais
+            </Paper>
             <Paper className={classes.field} elevation={0}>
               <TextField
                 id="outlined-search"
@@ -101,44 +129,41 @@ function NewDrillForm() {
               />
             </Paper>
             <Paper className={classes.field} elevation={0}>
-            <TextField
-                id="filled-multiline-static"
-                variant="outlined"
-                label="Description"
-                name="DescriptionEng"
-                multiline
-                rows={4}
-                fullWidth
+              <JoditEditor
+                ref={editor}
+                value={contentEng}
+                config={config}
+                tabIndex={1} // tabIndex of textarea
+                onBlur={(newContent) => setContentEng(newContent)} // preferred to use only this option to update the content for performance reasons
+                onChange={(newContent) => {}}
               />
             </Paper>
           </Grid>
-       
-        <Grid container spacing={0}>
-                <Grid item xs={2}>
-                    <Paper className={classes.field} elevation={0}>
-                        Image
-                    </Paper>
-                    <Paper className={classes.field} elevation={0}>
-                        Skills
-                    </Paper>
-                </Grid>
-                <Grid item xs={10}>
-                    <Paper className={classes.field} elevation={2} color="primary">
-                        Select File
-                    </Paper>
-                    <Paper className={classes.field} elevation={2}>
-                        Skills set
-                    </Paper>
-                </Grid>
+
+          <Grid container spacing={0}>
+            <Grid item xs={2}>
+              <Paper className={classes.field} elevation={0}>
+                Image
+              </Paper>
+              <Paper className={classes.field} elevation={0}>
+                Skills
+              </Paper>
             </Grid>
-        
-        <Grid container  justify="flex-end" alignItems="basline">
-          
-                <Button variant="contained" color="secondary" onClick=''>
-                     Populate HOPGE!
-                </Button>
-      
-        </Grid>
+            <Grid item xs={10}>
+              <Paper className={classes.field} elevation={2} color="primary">
+                    <ImageUploadPreview/>
+              </Paper>
+              <Paper className={classes.field} elevation={2}>
+                Skills set
+              </Paper>
+            </Grid>
+          </Grid>
+
+          <Grid container justify="flex-end" alignItems="basline">
+            <Button variant="contained" color="secondary" onClick="">
+              Populate HOPGE!
+            </Button>
+          </Grid>
         </Grid>
       </form>
     );
