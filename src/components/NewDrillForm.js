@@ -1,20 +1,16 @@
-import React, {useState, useRef} from 'react';
-import JoditEditor from "jodit-react";
+import React, {useState} from 'react';
+import { useHistory } from "react-router-dom";
 import ImageUploadPreview from './ImageUploadPreview'
 import {
     Grid,
     makeStyles,
     TextField,
-    FormControl,
-    FormLabel,
-    FormControlLabel,
-    RadioGroup,
-    Radio,
     Button,
     Paper,
   } from "@material-ui/core";
-
-
+import SkillsSelection from './SkillsSelection'
+import SunEditor from 'suneditor-react';
+import 'suneditor/dist/css/suneditor.min.css'; // Import Sun Editor's CSS File
 
 
 const  useStyles = makeStyles((theme) => ({
@@ -64,29 +60,109 @@ const  useStyles = makeStyles((theme) => ({
     ImageSection:
     {
         height: '200px',
+    },
+    imagePreview:
+    {
+      display : 'flex',
+      alignItems : 'center',
+      justify : 'center',
+      flexDirection : 'column'
     }
   }));
 
+  const initialValues = {
+    drTitleFr: "",
+    drTitleEng: ""
+  };
 
 
 
 function NewDrillForm() {
 
     const classes = useStyles();
+    const history = useHistory();
 
-    var editor = useRef(null)
-	const [contentFr, setContentFr] = useState('')
-    const [contentEng, setContentEng] = useState('')
-    const [pictures, setPicture] = useState('[]')
+	  const [descriptionFr, setContentFr] = useState('')
+    const [descriptionEng, setContentEng] = useState('')
+    const [selected, setSelected] = useState([]);
+    const [values, setValues] = useState(initialValues);
+    const [baseImage, setBaseImage] = useState("");
+    
+    const buttonList = [['bold', 'underline', 'italic'], ['align', 'list'],['font', 'fontSize', 'formatBlock']];
 
-	const config = {
-        "buttons": "bold,underline,italic,|,ul,ol,|,font,fontsize,|,,\n",
-        "buttonsMD": "bold,underline,italic,|,ul,ol,|,font,fontsize,|,,\n",
-        "buttonsSM": "bold,underline,italic,|,ul,ol,|,font,fontsize,|,,\n",
-        "buttonsXS": "bold,underline,italic",
-        toolbarAdaptive : true       
+
+    const handleInputChange = (e) => {
+      const { name, value } = e.target;
+  
+      setValues({
+        ...values,
+        [name]: value,
+      });
+    };
+
+    const ImageUploaded = async(i) => 
+    {
+      const base64 = await convertBase64(i);
+      setBaseImage(base64);
+         
     }
- 
+
+    const convertBase64 = (file) => {
+      return new Promise((resolve, reject) => {
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(file);
+  
+        fileReader.onload = () => {
+          resolve(fileReader.result);
+        };
+  
+        fileReader.onerror = (error) => {
+          reject(error);
+        };
+      });
+    };
+
+    const handleSubmit = (e) => {
+      // Simple POST request with a JSON body using fetch
+      const requestOptions = {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          titleFr: values.drTitleFr,
+          titleEng: values.drTitleEng,
+          descriptionFr: descriptionFr,
+          descriptionEng: descriptionEng,
+          picture: baseImage,
+          skills: getSelectedSkill(selected),
+          version : '1.0'
+        }),
+      };
+      fetch("http://localhost:5253/api/drills/drill", requestOptions)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Drill Saved" + data);
+          
+          return history.push("/drill/");
+  
+        });
+  
+      e.preventDefault();
+    };
+
+    //Should have a way to encampsule and reuse this logic in the compomement : GetSelection ?
+    const getSelectedSkill = (skills) => {
+      var selection = "";
+      for (let i = 0; i <= skills.length - 1; i++) {
+        selection += skills[i].value;
+        if (i < skills.length - 1) {
+          selection += ", ";
+        }
+      }
+  
+      return selection;
+    };
 
     return (
       <form className={classes.root}>
@@ -111,19 +187,19 @@ function NewDrillForm() {
                 id="outlined-search"
                 variant="outlined"
                 label="Titre"
-                name="TitleFr"
+                name="drTitleFr"
+                onChange={handleInputChange}
                 fullWidth
               />
             </Paper>
             <Paper className={classes.field} elevation={0}>
-              <JoditEditor
-                ref={editor}
-                value={contentFr}
-                config={config}
-                tabIndex={1} // tabIndex of textarea
-                onBlur={(newContent) => setContentFr(newContent)} // preferred to use only this option to update the content for performance reasons
-                onChange={(newContent) => {}}
-              />
+            <SunEditor  
+                  setOptions={{
+                                  height: 150,
+                                  buttonList: buttonList}
+                            }
+                  onChange={setContentFr}
+                  />
             </Paper>
           </Grid>
           <Grid item xs>
@@ -135,19 +211,20 @@ function NewDrillForm() {
                 id="outlined-search"
                 variant="outlined"
                 label="Title"
-                name="TitleEng"
+                name="drTitleEng"
+                onChange={handleInputChange}
                 fullWidth
               />
             </Paper>
             <Paper className={classes.field} elevation={0}>
-              <JoditEditor
-                ref={editor}
-                value={contentEng}
-                config={config}
-                tabIndex={1} // tabIndex of textarea
-                onBlur={(newContent) => setContentEng(newContent)} // preferred to use only this option to update the content for performance reasons
-                onChange={(newContent) => {}}
-              />
+                 <SunEditor  
+                  setOptions={{
+                                  height: 150,
+                                  buttonList: buttonList}
+                            }
+                  onChange={setContentEng}
+                                      
+                        />
             </Paper>
           </Grid>
 
@@ -161,19 +238,24 @@ function NewDrillForm() {
               </Paper>
             </Grid>
             <Grid item xs={10}>
-                <div className={classes.imageView}>
-              {/* <Paper elevation={2} color="primary"> */}
-                    <ImageUploadPreview/>
-                    </div>
+              <div className={classes.imagePreview}>
+                {/* <Paper elevation={2} color="primary"> */}
+                <ImageUploadPreview onFileSelectSuccess={ImageUploaded} />
+              </div>
               {/* </Paper> */}
               <Paper className={classes.field} elevation={2}>
-                Skills set
+                <SkillsSelection
+                  value={selected}
+                  onChange={setSelected}
+                  labelledBy={"Selects"}
+                  overrideStrings={{ selectSomeItems: "Select Skills to work" }}
+                />
               </Paper>
             </Grid>
           </Grid>
 
           <Grid container justify="flex-end" alignItems="basline">
-            <Button variant="contained" color="secondary" onClick="">
+            <Button variant="contained" color="secondary" onClick={handleSubmit}>
               Populate HOPGE!
             </Button>
           </Grid>

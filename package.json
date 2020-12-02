@@ -21,7 +21,8 @@
     "react-images-upload": "^1.2.8",
     "react-multi-select-component": "^3.0.5",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.3"
+    "react-scripts": "3.4.3",
+    "suneditor-react": "^2.14.6"
   },
   "scripts": {
     "start": "react-scripts start",
