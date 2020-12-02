@@ -24,14 +24,7 @@ const initialValues = {
   prtFullice: "full",
 };
 
-const options = [
-  { label: "Skating", value: "Skating" },
-  { label: "Passing", value: "Passing" },
-  { label: "1 vs 1", value: "1vs1" },
-  { label: "2 vs 2", value: "2vs2" },
-  { label: "Breakout", value: "Breakout" },
-  { label: "Forecheck", value: "Forecheck" },
-];
+
 
 const useStyle = makeStyles((theme) => ({
   root: {
@@ -175,7 +168,7 @@ function NewPracticeForm() {
         </Grid>
         <Grid item xs={12}>
           <SkillsSelection
-            options={options}
+            
             value={selected}
             onChange={setSelected}
             labelledBy={"Selects"}
