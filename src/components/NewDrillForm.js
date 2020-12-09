@@ -7,6 +7,10 @@ import {
     TextField,
     Button,
     Paper,
+    FormControl,
+    FormControlLabel,
+    RadioGroup,
+    Radio
   } from "@material-ui/core";
 import SkillsSelection from './SkillsSelection'
 import SunEditor from 'suneditor-react';
@@ -51,15 +55,36 @@ const  useStyles = makeStyles((theme) => ({
         padding : '48px 15px',
         margin: '0px 0px 0px 0px',
     },
+    labelIce:
+    {
+      fontFamily: 'Impact, Charcoal, sans-serif',
+      fontSize: 16,
+      padding : '19px 10px',
+      margin: '0px 0px 0px 0px',
+      verticalAlign:'top'
+    },
+    sectionIce:
+    {
+      padding : '0px 0px',
+      margin: '0px 0px 0px 10px',
+      verticalAlign:'top'
+    },
     field: {
         padding : '30px 20px',
     },
     topTable: {
         padding : '20px 20px',
+        alignItems: 'center',
+        fontFamily: 'Impact, Charcoal, sans-serif',
+        fontSize: 16,
     },
     ImageSection:
     {
-        height: '200px',
+      fontFamily: 'Impact, Charcoal, sans-serif',
+      fontSize: 16,
+      height: '137px',
+      padding : '24px 10px',
+      margin: '0px 0px 0px 0px'
     },
     imagePreview:
     {
@@ -72,7 +97,8 @@ const  useStyles = makeStyles((theme) => ({
 
   const initialValues = {
     drTitleFr: "",
-    drTitleEng: ""
+    drTitleEng: "",
+    drFullice: "full"
   };
 
 
@@ -136,6 +162,7 @@ function NewDrillForm() {
           descriptionEng: descriptionEng,
           picture: baseImage,
           skills: getSelectedSkill(selected),
+          fullIce: values.drFullice === "full" ? true : false,
           version : '1.0'
         }),
       };
@@ -169,7 +196,7 @@ function NewDrillForm() {
         <Grid container spacing={0}>
           <Grid item xs={2}>
             <Paper className={classes.topTable} elevation={0}>
-              Champs
+              
             </Paper>
             <Paper className={classes.label} elevation={0}>
               Titre
@@ -230,20 +257,44 @@ function NewDrillForm() {
 
           <Grid container spacing={0}>
             <Grid item xs={2}>
+              <Paper className={classes.labelIce} elevation={0}>
+                Ice/Glace
+              </Paper>
               <Paper className={classes.ImageSection} elevation={0}>
                 Image
               </Paper>
-              <Paper className={classes.field} elevation={0}>
+              <Paper className={classes.label} elevation={0}>
                 Skills
               </Paper>
             </Grid>
             <Grid item xs={10}>
+              <Paper className={classes.sectionIce} elevation={0}>
+                  <FormControl>
+                    <RadioGroup
+                      row
+                      value={values.drFullice}
+                      name="drFullice"
+                      onChange={handleInputChange}
+                    >
+                      <FormControlLabel
+                        value="full"
+                        control={<Radio color="secondary" />}
+                        label="Pleine Glace / Full Ice"
+                      />
+                      <FormControlLabel
+                        value="half"
+                        control={<Radio color="secondary" />}
+                        label="Demie Glace / Half-Ice"
+                      />
+                    </RadioGroup>
+              </FormControl>
+              </Paper>
               <div className={classes.imagePreview}>
                 {/* <Paper elevation={2} color="primary"> */}
                 <ImageUploadPreview onFileSelectSuccess={ImageUploaded} />
               </div>
               {/* </Paper> */}
-              <Paper className={classes.field} elevation={2}>
+              <Paper className={classes.field} elevation={0}>
                 <SkillsSelection
                   value={selected}
                   onChange={setSelected}
