@@ -1,13 +1,18 @@
 import React, { Component } from 'react'
+import {Button} from  "@material-ui/core";
 import ImageUploader from 'react-images-upload';
 import  './imageUploadPreview.css'
 
 export default class ImageUploadPreview extends Component {
   constructor(props) {
     super(props);
-    this.state = { pictures: [] };
+    this.state = { 
+      pictures: [] , 
+      needRefresh : false 
+    };
     this.onDrop = this.onDrop.bind(this);
     this.onFileSelectSuccess = props.onFileSelectSuccess;
+    this.onFileRemove = props.onFileRemove;
   }
 
   onDrop(picture) {
@@ -17,17 +22,30 @@ export default class ImageUploadPreview extends Component {
     });
     this.onFileSelectSuccess(picture[0]);
   }
-
-  removeImage = (id) => {
+  removeImage = () => {
     this.setState({
-      pictures: this.state.pictures.filter((image) => image.public_id !== id),
+      pictures: [],
     });
+    this.onFileRemove();
   };
+
+
+  componentWillReceiveProps(props) {
+    console.log("componentWillReceiveProps" +  props.needRefresh);
+    this.setState({ needRefresh: props.needRefresh })
+    if ( this.state.needRefresh )
+    {
+      this.removeImage();
+    }
+  }
 
   render() {
     if (this.state.pictures.length > 0) {
       return (
+        <>
         <img src={this.state.pictures} className="imagePreview" alt=""></img>
+        <Button  color="secondary" onClick={this.removeImage}>Remove Image</Button>
+        </>
       );
     }
 

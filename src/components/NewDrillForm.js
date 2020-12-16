@@ -15,7 +15,7 @@ import {
 import SkillsSelection from './SkillsSelection'
 import SunEditor from 'suneditor-react';
 import 'suneditor/dist/css/suneditor.min.css'; // Import Sun Editor's CSS File
-
+//import { Form } from 'react-advanced-form'
 
 const  useStyles = makeStyles((theme) => ({
     root: {
@@ -98,7 +98,8 @@ const  useStyles = makeStyles((theme) => ({
   const initialValues = {
     drTitleFr: "",
     drTitleEng: "",
-    drFullice: "full"
+    drFullice: "full",
+    needRefresh: false
   };
 
 
@@ -115,7 +116,19 @@ function NewDrillForm() {
     const [baseImage, setBaseImage] = useState("");
     
     const buttonList = [['bold', 'underline', 'italic'], ['align', 'list'],['font', 'fontSize', 'formatBlock']];
+   // var needRefresh = false; 
 
+    const cleanFields = () =>
+    {
+      ImageClear();
+      setContentFr("");
+      setContentEng("");
+          
+      setSelected([]);
+      
+
+      setValues(initialValues);
+    }
 
     const handleInputChange = (e) => {
       const { name, value } = e.target;
@@ -133,6 +146,18 @@ function NewDrillForm() {
          
     }
 
+    const ImageRemoved = async => 
+    {
+      setBaseImage("");        
+    }
+
+    const ImageClear = () => 
+    {
+      setValues({
+        needRefresh: true,
+      });
+    }
+
     const convertBase64 = (file) => {
       return new Promise((resolve, reject) => {
         const fileReader = new FileReader();
@@ -147,6 +172,8 @@ function NewDrillForm() {
         };
       });
     };
+
+   
 
     const handleSubmit = (e) => {
       // Simple POST request with a JSON body using fetch
@@ -170,9 +197,10 @@ function NewDrillForm() {
         .then((response) => response.json())
         .then((data) => {
           console.log("Drill Saved" + data);
+          cleanFields();
           
-          return history.push("/drill/");
-  
+        
+          return history.push("/drill/success");
         });
   
       e.preventDefault();
@@ -215,6 +243,7 @@ function NewDrillForm() {
                 variant="outlined"
                 label="Titre"
                 name="drTitleFr"
+                value={values.drTitleFr}
                 onChange={handleInputChange}
                 fullWidth
               />
@@ -223,11 +252,14 @@ function NewDrillForm() {
             <SunEditor  
                   setOptions={{
                                   height: 150,
-                                  buttonList: buttonList}
+                                  buttonList: buttonList,
+                              }
                             }
                   onChange={setContentFr}
+                  setContents={descriptionFr}
+                  
                   />
-            </Paper>
+            </Paper>  
           </Grid>
           <Grid item xs>
             <Paper className={classes.topTable} elevation={0}>
@@ -239,6 +271,7 @@ function NewDrillForm() {
                 variant="outlined"
                 label="Title"
                 name="drTitleEng"
+                value={values.drTitleEng}
                 onChange={handleInputChange}
                 fullWidth
               />
@@ -250,6 +283,7 @@ function NewDrillForm() {
                                   buttonList: buttonList}
                             }
                   onChange={setContentEng}
+                  setContents={descriptionEng}
                                       
                         />
             </Paper>
@@ -291,7 +325,9 @@ function NewDrillForm() {
               </Paper>
               <div className={classes.imagePreview}>
                 {/* <Paper elevation={2} color="primary"> */}
-                <ImageUploadPreview onFileSelectSuccess={ImageUploaded} />
+                <ImageUploadPreview onFileSelectSuccess={ImageUploaded}
+                onFileRemove={ImageRemoved}
+                needRefresh={values.needRefresh} />
               </div>
               {/* </Paper> */}
               <Paper className={classes.field} elevation={0}>
