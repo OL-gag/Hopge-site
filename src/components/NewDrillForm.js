@@ -70,13 +70,13 @@ const  useStyles = makeStyles((theme) => ({
       verticalAlign:'top'
     },
     field: {
-        padding : '30px 20px',
+        padding : '16px 20px',
     },
     topTable: {
-        padding : '20px 20px',
+        padding : '5px 5px',
         alignItems: 'center',
         fontFamily: 'Impact, Charcoal, sans-serif',
-        fontSize: 16,
+        fontSize: 12,
     },
     ImageSection:
     {
@@ -198,10 +198,14 @@ function NewDrillForm() {
         .then((data) => {
           console.log("Drill Saved" + data);
           cleanFields();
-          
-        
           return history.push("/drill/success");
-        });
+        })
+        .catch( err => {
+          
+            console.log( err );
+            return history.push("/drill/error");
+          
+        })
   
       e.preventDefault();
     };
@@ -246,6 +250,7 @@ function NewDrillForm() {
                 value={values.drTitleFr}
                 onChange={handleInputChange}
                 fullWidth
+                size="small"
               />
             </Paper>
             <Paper className={classes.field} elevation={0}>
@@ -274,6 +279,7 @@ function NewDrillForm() {
                 value={values.drTitleEng}
                 onChange={handleInputChange}
                 fullWidth
+                size="small"
               />
             </Paper>
             <Paper className={classes.field} elevation={0}>

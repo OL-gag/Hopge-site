@@ -25,6 +25,11 @@ const  useStyles = makeStyles((theme) => ({
         backgroundColor : '#aae142',
         
     },
+    MessageError: {
+        padding : '20px 20px',
+        backgroundColor : '#FF0000',
+        
+    },
     div:{
         fontFamily: 'Impact, Charcoal, sans-serif',
         fontSize: 16,
@@ -46,6 +51,11 @@ function CreateDrill() {
         if (isSaved) {
             messageBanner = "Congrulations! Your drill have been saved correctly";
             colorBanner = classes.MessageSaved;
+        }
+        var isError = location.pathname.includes("error");
+        if (isError) {
+            messageBanner = "Error! Sorry we cannot save the drill";
+            colorBanner = classes.MessageError;
         }
       }
 
