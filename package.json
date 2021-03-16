@@ -17,11 +17,14 @@
     "moment": "^2.29.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-form-with-constraints": "^0.16.0",
+    "react-form-with-constraints-material-ui": "^0.16.0",
     "react-icons": "^3.11.0",
     "react-images-upload": "^1.2.8",
     "react-multi-select-component": "^3.0.7",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
+    "react-super-responsive-table": "^5.2.0",
     "suneditor-react": "^2.14.6"
   },
   "scripts": {

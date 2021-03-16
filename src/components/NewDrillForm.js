@@ -4,10 +4,10 @@ import ImageUploadPreview from './ImageUploadPreview'
 import {
     Grid,
     makeStyles,
-    TextField,
+    /*TextField,*/
     Button,
     Paper,
-    FormControl,
+    /*FormControl,*/
     FormControlLabel,
     RadioGroup,
     Radio
@@ -15,7 +15,16 @@ import {
 import SkillsSelection from './SkillsSelection'
 import SunEditor from 'suneditor-react';
 import 'suneditor/dist/css/suneditor.min.css'; // Import Sun Editor's CSS File
-//import { Form } from 'react-advanced-form'
+
+import {
+  Async,
+  FieldFeedback,
+  FieldFeedbacks,
+  FormControl,
+  FormWithConstraints,
+  TextField
+} from 'react-form-with-constraints-material-ui';
+
 
 const  useStyles = makeStyles((theme) => ({
     root: {
@@ -116,8 +125,8 @@ function NewDrillForm() {
     const [baseImage, setBaseImage] = useState("");
     
     const buttonList = [['bold', 'underline', 'italic'], ['align', 'list'],['font', 'fontSize', 'formatBlock']];
-   // var needRefresh = false; 
-
+ 
+    
     const cleanFields = () =>
     {
       ImageClear();
@@ -224,7 +233,7 @@ function NewDrillForm() {
     };
 
     return (
-      <form className={classes.root}>
+      <FormWithConstraints className={classes.root} onSubmit={handleSubmit} noValidate>
         <Grid container spacing={0}>
           <Grid item xs={2}>
             <Paper className={classes.topTable} elevation={0}>
@@ -252,12 +261,16 @@ function NewDrillForm() {
                 fullWidth
                 size="small"
               />
+              <FieldFeedbacks for="drTitleFr">
+                <FieldFeedback when="valueMissing" /> 
+              </FieldFeedbacks>
             </Paper>
             <Paper className={classes.field} elevation={0}>
             <SunEditor  
                   setOptions={{
                                   height: 150,
                                   buttonList: buttonList,
+                                  mode: "classic",
                               }
                             }
                   onChange={setContentFr}
@@ -353,7 +366,7 @@ function NewDrillForm() {
             </Button>
           </Grid>
         </Grid>
-      </form>
+      </FormWithConstraints>
     );
 }
 

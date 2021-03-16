@@ -1,0 +1,27 @@
+.containerinfo
+{
+    padding: 20px,20px;
+}
+
+.tableInfo{
+    background-color: #a3a5c3;
+    margin-top: 10px;
+    border: 1px solid black; 
+    vertical-align: top;
+}
+
+
+.thInfo {
+    font-size: 16px;
+    font-family:Georgia, 'Times New Roman', Times, serif;
+    width:auto;
+    text-align: left;
+    vertical-align: top;
+}
+
+.tdInfo
+{
+    width:auto;
+    text-align: left;
+    vertical-align: top;
+}

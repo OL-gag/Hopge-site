@@ -5,15 +5,19 @@ import DrillLine from "../components/DrillLine";
 
 import { themeMagic } from "../theme.js";
 import { ThemeProvider } from "@material-ui/core/styles";
-
-import Table from "@material-ui/core/Table";
+import { Container, Paper } from "@material-ui/core";
+//import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
 
+import Grid from "@material-ui/core/Grid";
+import "./Practice.css";
+
+import { Table, Thead, Tbody, Tr, Th, Td } from "react-super-responsive-table";
+import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
 
 class Practice extends React.Component {
   constructor(props) {
@@ -66,17 +70,38 @@ class Practice extends React.Component {
       <ThemeProvider theme={themeMagic}>
         <div className="practice">
           <NavBar />
-          <TableContainer component={Paper}>
-            <Table aria-label="simple table">
-              <TableHead>
-                <TableRow>
-                  <TableCell>Name</TableCell>
-                  <TableCell align="right">Description</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>{blockPat}</TableBody>
-            </Table>
-          </TableContainer>
+          <Container className="containerinfo">
+            <Grid container spacing={3}>
+              <Grid item xs={12}>
+                <Table className="tableInfo">
+                  <Tr>
+                    <Th className="thInfo">Title</Th>
+                    <Td className="tdInfo">
+                      my title dddddddd dddddddddddddddd dddddddddd
+                    </Td>
+                  </Tr>
+                  <Tr>
+                    <Th className="thInfo">Date</Th>
+                    <Td className="tdInfo">my date</Td>
+                  </Tr>
+                  <Tr>
+                    <Th className="thInfo">Lieu</Th>
+                    <Td className="tdInfo">mon lieu</Td>
+                  </Tr>
+                  <Tr>
+                    <Th className="thInfo">Note</Th>
+                    <Td className="tdInfo">mon lieu</Td>
+                  </Tr>
+                </Table>
+              </Grid>
+            </Grid>
+
+            <TableContainer component={Paper}>
+              <Table>
+                <TableBody>{blockPat}</TableBody>
+              </Table>
+            </TableContainer>
+          </Container>
         </div>
       </ThemeProvider>
     );

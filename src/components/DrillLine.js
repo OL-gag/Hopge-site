@@ -47,16 +47,18 @@ class DrillLine extends React.Component{
 
         if ( this.state.drill == null )
         {
-            return <br></br>;
+            return "BR";
         }
         let drill = this.state.drill[0];
         return (
             
             <TableRow key={drill.drill_name_fr}>
-            <TableCell component="th" scope="row">
-                {drill.drill_name_fr}
-            </TableCell>
-            <TableCell align="right">{drill.drill_description_fr}</TableCell>
+                <TableCell component="th" scope="row">
+                    {drill.drill_name_fr}
+                </TableCell>
+                <TableCell align="right">{
+                    drill.drill_description_fr}
+                </TableCell>
             </TableRow>
 
         );
