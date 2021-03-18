@@ -1,27 +1,28 @@
 import React from 'react';
-
 import TableCell from '@material-ui/core/TableCell';
-
 import TableRow from '@material-ui/core/TableRow';
-
-class DrillLine extends React.Component{
+import { Container, Paper } from "@material-ui/core";
+var blobUtil = require('blob-util')
+/*
+Component to display one drill. The drill contain the title, the picture and the description in the selected language.
+To implement : skills + duration (Start date - End Date with time)
+*/
+class DrillView extends React.Component{
     constructor(props)  {
         super(props);
         this.state = {
             urlDrill: props.urlPractice,
+            lang: props.lang,
             drill: null
-
         };          
     }
 
     componentDidMount () {
-        this.fetchDrill(this.state.urlDrill);
-    
+        this.fetchDrill(this.state.urlDrill);    
      }
      
      fetchDrill(urlDrill)
-     {
-        
+     {        
          // Simple POST request with a JSON body using fetch
          const requestOptions = {
              
@@ -33,13 +34,9 @@ class DrillLine extends React.Component{
        
          fetch(urlDrill, requestOptions)
            .then(response => response.json())
-           .then(data => {
-                 
-                 console.log("Fetching data =" + data.drill);
-           
+           .then(data => {                 
+                 console.log("Fetching data =" + data.drill);           
                  this.setState({ drill: data.drill });
-            
-   
               } );
      }
  
@@ -47,26 +44,35 @@ class DrillLine extends React.Component{
 
         if ( this.state.drill == null )
         {
-            return "BR";
+            return "<BR> Error, no drill found (DrillView)"; 
         }
-        let drill = this.state.drill[0];
+
+        let drill_data = this.state.drill[0];
+        var blob = blobUtil.base64StringToBlob(drill_data.drill_picture_64)
+        let urlObjtmp = URL.createObjectURL(blob);   
+      
         return (
-            
-            <TableRow key={drill.drill_name_fr}>
+            <Paper>
+               
+          
+               <TableRow key={drill_data.drill_name_fr}>
                 <TableCell component="th" scope="row">
-                    {drill.drill_name_fr}
+                    {urlObjtmp}
                 </TableCell>
                 <TableCell align="right">{
-                    drill.drill_description_fr}
+                    drill_data.drill_description_fr}
                 </TableCell>
-            </TableRow>
+                </TableRow>
+            </Paper>
+
+        
 
         );
      }
 
 }
 
-export default DrillLine; 
+export default DrillView; 
 /*
 "drill_id": 8,
             "drill_name_fr": "Exercice 8",

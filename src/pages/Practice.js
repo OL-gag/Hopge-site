@@ -1,7 +1,7 @@
 import React from "react";
 
 import NavBar from "./NavBar.js";
-import DrillLine from "../components/DrillLine";
+import DrillView from "../components/DrillView";
 
 import { themeMagic } from "../theme.js";
 import { ThemeProvider } from "@material-ui/core/styles";
@@ -63,7 +63,7 @@ class Practice extends React.Component {
   render() {
     let blockPat;
     if (this.state.practices != null) {
-      blockPat = this.state.practices.map((x) => <DrillLine urlPractice={x} />);
+      blockPat = this.state.practices.map((x) => <DrillView urlPractice={x} lang='FR' />);
     }
 
     return (
