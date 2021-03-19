@@ -4,10 +4,10 @@ import ImageUploadPreview from './ImageUploadPreview'
 import {
     Grid,
     makeStyles,
-    TextField,
+    /*TextField,*/
     Button,
     Paper,
-    FormControl,
+    /*FormControl,*/
     FormControlLabel,
     RadioGroup,
     Radio
@@ -15,6 +15,18 @@ import {
 import SkillsSelection from './SkillsSelection'
 import SunEditor from 'suneditor-react';
 import 'suneditor/dist/css/suneditor.min.css'; // Import Sun Editor's CSS File
+
+import {
+  Async,
+  FieldFeedback,
+  FieldFeedbacks,
+  FormControl,
+  FormWithConstraints,
+  TextField
+} from 'react-form-with-constraints-material-ui';
+
+//const imageToBase64 = require('image-to-base64');
+const axios = require('axios');
 
 
 const  useStyles = makeStyles((theme) => ({
@@ -70,13 +82,13 @@ const  useStyles = makeStyles((theme) => ({
       verticalAlign:'top'
     },
     field: {
-        padding : '30px 20px',
+        padding : '16px 20px',
     },
     topTable: {
-        padding : '20px 20px',
+        padding : '5px 5px',
         alignItems: 'center',
         fontFamily: 'Impact, Charcoal, sans-serif',
-        fontSize: 16,
+        fontSize: 12,
     },
     ImageSection:
     {
@@ -98,7 +110,8 @@ const  useStyles = makeStyles((theme) => ({
   const initialValues = {
     drTitleFr: "",
     drTitleEng: "",
-    drFullice: "full"
+    drFullice: "full",
+    needRefresh: false
   };
 
 
@@ -115,7 +128,19 @@ function NewDrillForm() {
     const [baseImage, setBaseImage] = useState("");
     
     const buttonList = [['bold', 'underline', 'italic'], ['align', 'list'],['font', 'fontSize', 'formatBlock']];
+ 
+    
+    const cleanFields = () =>
+    {
+      ImageClear();
+      setContentFr("");
+      setContentEng("");
+          
+      setSelected([]);
+      
 
+      setValues(initialValues);
+    }
 
     const handleInputChange = (e) => {
       const { name, value } = e.target;
@@ -128,9 +153,71 @@ function NewDrillForm() {
 
     const ImageUploaded = async(i) => 
     {
-      const base64 = await convertBase64(i);
-      setBaseImage(base64);
+
+      var file = i,
+      reader = new FileReader();
+  
+      reader.onloadend = function () {
+        // Since it contains the Data URI, we should remove the prefix and keep only Base64 string
+        var b64 = reader.result.replace(/^data:.+;base64,/, '');
+        console.log(b64); //-> "R0lGODdhAQABAPAAAP8AAAAAACwAAAAAAQABAAACAkQBADs="
+        setBaseImage(b64)
+      };
+      
+      reader.readAsDataURL(file);
+     // const base64 = await aconvertBase64(i);
+      
+      /*var canvas = document.createElement('canvas'),
+      ctx = canvas.getContext('2d');
+        var img = new Image();
+      
+        img.onload = function(){
+          canvas.height = img.naturalHeight;
+          canvas.width = img.naturalWidth;
+          ctx.drawImage(img, 0, 0);
+  
+        }
+       
+        img.src = i;
+
+      
+        // Unfortunately, we cannot keep the original image type, so all images will be converted to PNG
+        // For this reason, we cannot get the original Base64 string
+        var uri = canvas.toDataURL('image/png'),
+        b64 = uri.replace(/^data:image.+;base64,/, '');
+
+        setBaseImage(b64);*/
          
+    }
+
+    const aconvertBase64 = (file) => {
+      return new Promise((resolve, reject) => {
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(file);
+  
+        fileReader.onload = () => {
+          resolve(fileReader.result);
+        };
+  
+        fileReader.onerror = (error) => {
+          reject(error);
+        };
+      });
+    };
+  
+
+
+
+    const ImageRemoved = async => 
+    {
+      setBaseImage("");        
+    }
+
+    const ImageClear = () => 
+    {
+      setValues({
+        needRefresh: true,
+      });
     }
 
     const convertBase64 = (file) => {
@@ -147,6 +234,8 @@ function NewDrillForm() {
         };
       });
     };
+
+   
 
     const handleSubmit = (e) => {
       // Simple POST request with a JSON body using fetch
@@ -170,10 +259,15 @@ function NewDrillForm() {
         .then((response) => response.json())
         .then((data) => {
           console.log("Drill Saved" + data);
+          cleanFields();
+          return history.push("/drill/success");
+        })
+        .catch( err => {
           
-          return history.push("/drill/");
-  
-        });
+            console.log( err );
+            return history.push("/drill/error");
+          
+        })
   
       e.preventDefault();
     };
@@ -192,7 +286,7 @@ function NewDrillForm() {
     };
 
     return (
-      <form className={classes.root}>
+      <FormWithConstraints className={classes.root} onSubmit={handleSubmit} noValidate>
         <Grid container spacing={0}>
           <Grid item xs={2}>
             <Paper className={classes.topTable} elevation={0}>
@@ -215,19 +309,28 @@ function NewDrillForm() {
                 variant="outlined"
                 label="Titre"
                 name="drTitleFr"
+                value={values.drTitleFr}
                 onChange={handleInputChange}
                 fullWidth
+                size="small"
               />
+              <FieldFeedbacks for="drTitleFr">
+                <FieldFeedback when="valueMissing" /> 
+              </FieldFeedbacks>
             </Paper>
             <Paper className={classes.field} elevation={0}>
             <SunEditor  
                   setOptions={{
                                   height: 150,
-                                  buttonList: buttonList}
+                                  buttonList: buttonList,
+                                  mode: "classic",
+                              }
                             }
                   onChange={setContentFr}
+                  setContents={descriptionFr}
+                  
                   />
-            </Paper>
+            </Paper>  
           </Grid>
           <Grid item xs>
             <Paper className={classes.topTable} elevation={0}>
@@ -239,8 +342,10 @@ function NewDrillForm() {
                 variant="outlined"
                 label="Title"
                 name="drTitleEng"
+                value={values.drTitleEng}
                 onChange={handleInputChange}
                 fullWidth
+                size="small"
               />
             </Paper>
             <Paper className={classes.field} elevation={0}>
@@ -250,6 +355,7 @@ function NewDrillForm() {
                                   buttonList: buttonList}
                             }
                   onChange={setContentEng}
+                  setContents={descriptionEng}
                                       
                         />
             </Paper>
@@ -291,7 +397,9 @@ function NewDrillForm() {
               </Paper>
               <div className={classes.imagePreview}>
                 {/* <Paper elevation={2} color="primary"> */}
-                <ImageUploadPreview onFileSelectSuccess={ImageUploaded} />
+                <ImageUploadPreview onFileSelectSuccess={ImageUploaded}
+                onFileRemove={ImageRemoved}
+                needRefresh={values.needRefresh} />
               </div>
               {/* </Paper> */}
               <Paper className={classes.field} elevation={0}>
@@ -311,7 +419,7 @@ function NewDrillForm() {
             </Button>
           </Grid>
         </Grid>
-      </form>
+      </FormWithConstraints>
     );
 }
 

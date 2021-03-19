@@ -4,7 +4,7 @@ import { Container, Paper } from '@material-ui/core';
 
 import NewDrillForm from '../components/NewDrillForm';
 
-
+import {useLocation} from "react-router-dom";
 
 
 const  useStyles = makeStyles((theme) => ({
@@ -20,6 +20,16 @@ const  useStyles = makeStyles((theme) => ({
         backgroundColor : '#a3a5c3',
         
     },
+    MessageSaved: {
+        padding : '20px 20px',
+        backgroundColor : '#aae142',
+        
+    },
+    MessageError: {
+        padding : '20px 20px',
+        backgroundColor : '#FF0000',
+        
+    },
     div:{
         fontFamily: 'Impact, Charcoal, sans-serif',
         fontSize: 16,
@@ -33,12 +43,28 @@ const  useStyles = makeStyles((theme) => ({
 function CreateDrill() {
 
     const classes = useStyles();
+    const location = useLocation();
+    var messageBanner =  "Yes! You have a good drill to propose! Just publish it on Hopge!" 
+    var colorBanner = classes.Message;
+    if (location.pathname != null) {
+        var isSaved = location.pathname.includes("success");
+        if (isSaved) {
+            messageBanner = "Congrulations! Your drill have been saved correctly";
+            colorBanner = classes.MessageSaved;
+        }
+        var isError = location.pathname.includes("error");
+        if (isError) {
+            messageBanner = "Error! Sorry we cannot save the drill";
+            colorBanner = classes.MessageError;
+        }
+      }
+
 
     return (
         <>
           <div className="top-info"></div>
             <Container className={classes.Container}>
-                <Paper className={classes.Message}>  Yes! You have a good drill to propose! Just publish it on Hopge! </Paper>
+                <Paper className={colorBanner}>   {messageBanner} </Paper>
                 <NewDrillForm/>
             </Container>
             <div className="NewDrillForm"></div>  
