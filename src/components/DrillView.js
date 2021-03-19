@@ -3,6 +3,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import { Container, Paper } from "@material-ui/core";
 var blobUtil = require('blob-util')
+var base64 = require('base-64');
 /*
 Component to display one drill. The drill contain the title, the picture and the description in the selected language.
 To implement : skills + duration (Start date - End Date with time)
@@ -48,24 +49,19 @@ class DrillView extends React.Component{
         }
 
         let drill_data = this.state.drill[0];
-        var blob = blobUtil.base64StringToBlob(drill_data.drill_picture_64)
-        let urlObjtmp = URL.createObjectURL(blob);   
-      
+
         return (
             <Paper>
-               
-          
+                            
                <TableRow key={drill_data.drill_name_fr}>
                 <TableCell component="th" scope="row">
-                    {urlObjtmp}
+                    <img src={`data:image/jpeg;base64,${drill_data.drill_picture_64}`} alt='No Image' />                
                 </TableCell>
                 <TableCell align="right">{
                     drill_data.drill_description_fr}
                 </TableCell>
                 </TableRow>
-            </Paper>
-
-        
+            </Paper>      
 
         );
      }

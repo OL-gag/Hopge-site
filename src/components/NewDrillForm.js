@@ -25,6 +25,9 @@ import {
   TextField
 } from 'react-form-with-constraints-material-ui';
 
+//const imageToBase64 = require('image-to-base64');
+const axios = require('axios');
+
 
 const  useStyles = makeStyles((theme) => ({
     root: {
@@ -150,10 +153,60 @@ function NewDrillForm() {
 
     const ImageUploaded = async(i) => 
     {
-      const base64 = await convertBase64(i);
-      setBaseImage(base64);
+
+      var file = i,
+      reader = new FileReader();
+  
+      reader.onloadend = function () {
+        // Since it contains the Data URI, we should remove the prefix and keep only Base64 string
+        var b64 = reader.result.replace(/^data:.+;base64,/, '');
+        console.log(b64); //-> "R0lGODdhAQABAPAAAP8AAAAAACwAAAAAAQABAAACAkQBADs="
+        setBaseImage(b64)
+      };
+      
+      reader.readAsDataURL(file);
+     // const base64 = await aconvertBase64(i);
+      
+      /*var canvas = document.createElement('canvas'),
+      ctx = canvas.getContext('2d');
+        var img = new Image();
+      
+        img.onload = function(){
+          canvas.height = img.naturalHeight;
+          canvas.width = img.naturalWidth;
+          ctx.drawImage(img, 0, 0);
+  
+        }
+       
+        img.src = i;
+
+      
+        // Unfortunately, we cannot keep the original image type, so all images will be converted to PNG
+        // For this reason, we cannot get the original Base64 string
+        var uri = canvas.toDataURL('image/png'),
+        b64 = uri.replace(/^data:image.+;base64,/, '');
+
+        setBaseImage(b64);*/
          
     }
+
+    const aconvertBase64 = (file) => {
+      return new Promise((resolve, reject) => {
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(file);
+  
+        fileReader.onload = () => {
+          resolve(fileReader.result);
+        };
+  
+        fileReader.onerror = (error) => {
+          reject(error);
+        };
+      });
+    };
+  
+
+
 
     const ImageRemoved = async => 
     {

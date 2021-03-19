@@ -20,8 +20,13 @@ export default class ImageUploadPreview extends Component {
     this.setState({
       pictures: urlObjtmp,
     });
-    this.onFileSelectSuccess(picture[0]);
-  }
+    this.onFileSelectSuccess(picture[0]);//picture[0]
+    
+ 
+
+  
+  };
+  
   removeImage = () => {
     this.setState({
       pictures: [],
