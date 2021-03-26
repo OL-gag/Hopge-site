@@ -1,9 +1,24 @@
 import React from 'react';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
-import { Container, Paper } from "@material-ui/core";
+import { withStyles, Container, Paper } from "@material-ui/core";
+import parse from 'html-react-parser';
+import { makeStyles } from '@material-ui/core/styles';
+import './DrillView.css'
+
 var blobUtil = require('blob-util')
 var base64 = require('base-64');
+
+
+const DrillTableCell = withStyles((theme) => ({
+    root: {
+        fontSize: 12,
+        verticalAlign: 'top',
+        textAlign: 'left'            
+    }
+    }))(TableCell);
+
+
 /*
 Component to display one drill. The drill contain the title, the picture and the description in the selected language.
 To implement : skills + duration (Start date - End Date with time)
@@ -42,7 +57,7 @@ class DrillView extends React.Component{
      }
  
      render() {
-
+      
         if ( this.state.drill == null )
         {
             return "<BR> Error, no drill found (DrillView)"; 
@@ -51,17 +66,19 @@ class DrillView extends React.Component{
         let drill_data = this.state.drill[0];
 
         return (
-            <Paper>
+           
                             
                <TableRow key={drill_data.drill_name_fr}>
-                <TableCell component="th" scope="row">
+                <TableCell width="50%" size="small"  >
                     <img src={`data:image/jpeg;base64,${drill_data.drill_picture_64}`} alt='No Image' />                
                 </TableCell>
-                <TableCell align="right">{
-                    drill_data.drill_description_fr}
-                </TableCell>
+                <DrillTableCell>
+                    <TableRow valign="top"> <p className="cellTitre"> {drill_data.drill_name_fr}  (durée) </p> </TableRow>
+                    <TableRow> {parse(drill_data.drill_description_fr)} </TableRow>
+                    <TableRow> Skills  </TableRow>                   
+                </DrillTableCell>
                 </TableRow>
-            </Paper>      
+           
 
         );
      }
