@@ -1,0 +1,35 @@
+.cellTitre {
+        font-size: 12px;
+        font-family:Georgia, 'Times New Roman', Times, serif;
+        font-weight: bold;
+        width:auto;
+        
+        text-align: left;
+        vertical-align: top;
+        padding: 0px 0px 0px 0px;
+}
+
+.rowTitre {
+        font-size: 16px;
+        font-family:Georgia, 'Times New Roman', Times, serif;
+        font-weight: bold;
+        width:auto;
+        text-align: left;
+        vertical-align: top;
+}
+
+.tableDrillInfo
+{
+        height: inherit;
+        background: #950;
+}
+
+.rowSkill
+{
+        text-align:left;         
+}
+
+.drillBox
+{
+        margin: 5px 0px 20px 0px;
+}
