@@ -39,10 +39,29 @@ class Practice extends React.Component {
   }
 
   componentDidMount() {
-    this.fetchPractice();
+    this.fetchInfoPractice();
+    this.fetchDrills();
   }
 
-  fetchPractice() {
+  fetchDrills() {
+    // Simple POST request with a JSON body using fetch
+    const requestOptions = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    var urlPractice =
+      "http://localhost:5253/api/practices/" + this.state.pId + "/drills";
+    fetch(urlPractice, requestOptions)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Fetching data =" + data.drillUrls);
+
+        this.setState({ practices: data.drillUrls });
+      });
+  }
+
+  fetchInfoPractice() {
     // Simple POST request with a JSON body using fetch
     const requestOptions = {
       headers: {
