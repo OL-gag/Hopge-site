@@ -4,13 +4,16 @@ import TableRow from '@material-ui/core/TableRow';
 import { withStyles, Container, Paper } from "@material-ui/core";
 import parse from 'html-react-parser';
 import { makeStyles } from '@material-ui/core/styles';
-import './DrillView.css'
+import './DrillView.css';
+import Grid from "@material-ui/core/Grid";
+import { Table, Thead, Tbody, Tr, Th, Td } from "react-super-responsive-table";
+import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
 
-var blobUtil = require('blob-util')
+var blobUtil = require('blob-util');
 var base64 = require('base-64');
 
 
-const DrillTableCell = withStyles((theme) => ({
+    const DrillTableCell = withStyles((theme) => ({
     root: {
         fontSize: 12,
         verticalAlign: 'top',
@@ -18,6 +21,13 @@ const DrillTableCell = withStyles((theme) => ({
     }
     }))(TableCell);
 
+    const SkillTableRow = withStyles((theme) => ({
+        root: {
+            fontSize: 16,
+            verticalAlign: 'bottom',
+            textAlign: 'left'            
+        }
+        }))(TableRow);
 
 /*
 Component to display one drill. The drill contain the title, the picture and the description in the selected language.
@@ -66,20 +76,27 @@ class DrillView extends React.Component{
         let drill_data = this.state.drill[0];
 
         return (
-           
+            <>
+             <Paper elevation={10} className="drillBox">
+                <Grid container spacing={1}>                   
+                        <Grid item xs>   <img src={`data:image/jpeg;base64,${drill_data.drill_picture_64}`} alt='No Image' />     </Grid>
+                        <Grid item xs>
+                            <Grid item xs container spacing={1} direction="column" >
+                                <Grid item xs={12} className="rowTitre">
+                                    {drill_data.drill_name_fr}  (durée)  
+                                </Grid>
+                                <Grid item xs={12}>
+                                {parse(drill_data.drill_description_fr)}
+                                </Grid>
                             
-               <TableRow key={drill_data.drill_name_fr}>
-                <TableCell width="50%" size="small"  >
-                    <img src={`data:image/jpeg;base64,${drill_data.drill_picture_64}`} alt='No Image' />                
-                </TableCell>
-                <DrillTableCell>
-                    <TableRow valign="top"> <p className="cellTitre"> {drill_data.drill_name_fr}  (durée) </p> </TableRow>
-                    <TableRow> {parse(drill_data.drill_description_fr)} </TableRow>
-                    <TableRow> Skills  </TableRow>                   
-                </DrillTableCell>
-                </TableRow>
-           
-
+                            </Grid>
+                        </Grid>
+                        <Grid item xs={12} className="rowSkill">
+                            Habilités : {drill_data.drill_skills}
+                        </Grid>                
+                </Grid>
+                </Paper>
+            </>
         );
      }
 
@@ -95,4 +112,23 @@ export default DrillView;
             "drill_note": "Faire",
             "drill_picture": null,
             "drill_skills": "Patin"
+
+
+
+       <Table>          
+                <Tr>
+                    <Td width="50%" >
+                        <img src={`data:image/jpeg;base64,${drill_data.drill_picture_64}`} alt='No Image' />       
+                    </Td>         
+                    <Td width="50%" className="cellTitre">
+                        <Table className="tableDrillInfo">   
+                            <Tr className="cellTitre" rowspan="1" height="10%" ><Td >{drill_data.drill_name_fr}  (durée)  </Td></Tr>   
+                            <Tr rowspan="4" height="80%"><Td>{parse(drill_data.drill_description_fr)}</Td></Tr>   
+                            <Tr className="rowSkill" rowspan="1" height="10%"><Td>Skills</Td></Tr>   
+                        </Table>                                          
+                    </Td>             
+                </Tr>
+            </Table>
+
+
 */
