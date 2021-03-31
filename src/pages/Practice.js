@@ -25,6 +25,7 @@ class Practice extends React.Component {
     this.state = {
       pId: null,
       practices: [],
+      informations: []
     };
 
     if (props.location.pathname != null) {
@@ -55,7 +56,7 @@ class Practice extends React.Component {
     fetch(urlPractice, requestOptions)
       .then((response) => response.json())
       .then((data) => {
-        console.log("Fetching data =" + data.drillUrls);
+        //console.log("Fetching data =" + data.drillUrls);
 
         this.setState({ practices: data.drillUrls });
       });
@@ -69,13 +70,13 @@ class Practice extends React.Component {
       },
     };
     var urlPractice =
-      "http://localhost:5253/api/practices/" + this.state.pId + "/drills";
+      "http://localhost:5253/api/practices/" + this.state.pId + "/info";
     fetch(urlPractice, requestOptions)
       .then((response) => response.json())
       .then((data) => {
-        console.log("Fetching data =" + data.drillUrls);
+        console.log("Fetching data =" + data.informations);
 
-        this.setState({ practices: data.drillUrls });
+        this.setState({ informations: data.informations });
       });
   }
 
@@ -84,8 +85,19 @@ class Practice extends React.Component {
     if (this.state.practices != null) {
       blockPat = this.state.practices.map((x) => <DrillView urlPractice={x} lang='FR' />);
     }
+    
+    if ( this.state.informations == null )
+    {
+      return ("Error: No Exercice Found");
+ 
+    }
+   
+    let  info = this.state.informations[0];
+    //format
+    let datePractice = new Date(info.startdtm);
 
     return (
+
       <ThemeProvider theme={themeMagic}>
         <div className="practice">
           <NavBar />
@@ -94,22 +106,32 @@ class Practice extends React.Component {
               <Grid item xs={12}>
                 <Table className="tableInfo">
                   <Tr>
-                    <Th className="thInfo">Title</Th>
+                    <Th className="thInfo">­Titre</Th>
                     <Td className="tdInfo">
-                      my title dddddddd dddddddddddddddd dddddddddd
+                      {info.title}
                     </Td>
                   </Tr>
                   <Tr>
                     <Th className="thInfo">Date</Th>
-                    <Td className="tdInfo">my date</Td>
+                    <Td className="tdInfo">
+                    {datePractice.toLocaleString('fr-CA', {
+                                            year: 'numeric',
+                                            month: '2-digit',
+                                            day: '2-digit',
+                                            hour: 'numeric',
+                                            minute: 'numeric'
+                                          })}
+
+
+                    </Td>
                   </Tr>
                   <Tr>
                     <Th className="thInfo">Lieu</Th>
-                    <Td className="tdInfo">mon lieu</Td>
+                    <Td className="tdInfo">A VENIR</Td>
                   </Tr>
                   <Tr>
                     <Th className="thInfo">Note</Th>
-                    <Td className="tdInfo">mon lieu</Td>
+                    <Td className="tdInfo">A venir</Td>
                   </Tr>
                 </Table>
               </Grid>
