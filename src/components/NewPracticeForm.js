@@ -41,6 +41,7 @@ const useStyle = makeStyles((theme) => ({
   },
 }));
 
+// eslint-disable-next-line
 Date.prototype.toJSON = function () {
   return moment(this).format();
 };
