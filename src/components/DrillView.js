@@ -77,7 +77,7 @@ class DrillView extends React.Component{
 
         return (
             <>
-             <Paper elevation={10} className="drillBox">
+             <Paper variant="outlined"  className="drillBox">
                 <Grid container spacing={1}>                   
                         <Grid item xs>   <img src={`data:image/jpeg;base64,${drill_data.drill_picture_64}`} alt='No Image' />     </Grid>
                         <Grid item xs>
