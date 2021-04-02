@@ -121,11 +121,11 @@ class Practice extends React.Component {
                   </Tr>
                   <Tr>
                     <Th className="thInfo">Lieu</Th>
-                    <Td className="tdInfo">A VENIR</Td>
+                    <Td className="tdInfo">{info.field} ( {info.fullice? "Pleine Glace" : "Demi-Glace"} ) </Td>
                   </Tr>
                   <Tr>
                     <Th className="thInfo">Note</Th>
-                    <Td className="tdInfo">A venir</Td>
+                    <Td className="tdInfo">{info.note}</Td>
                   </Tr>
                 </Table>
               </Grid>

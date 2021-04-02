@@ -1,6 +1,7 @@
 import React from 'react'
 import MultiSelect from "react-multi-select-component";
 
+
 const options = [
     { label: "Skating", value: "Skating" },
     { label: "Passing", value: "Passing" },
@@ -10,10 +11,12 @@ const options = [
     { label: "Forecheck", value: "Forecheck" },
   ];
 
+
+
+
 function SkillsSelection(props) {
     
     const { selected, setSelected, labelledBy, overrideStrings, onClick, ...other } = props
-
     return (
  
      
