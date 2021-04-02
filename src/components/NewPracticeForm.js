@@ -16,12 +16,15 @@ import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import SkillsSelection from "./SkillsSelection";
 import { useHistory } from "react-router-dom";
 import moment from "moment";
+import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 
 const initialValues = {
-  prtTitle: "2",
+  prtTitle: "",
   prtDate: new Date(),
   prtDuration: 60,
   prtFullice: "full",
+  prtLocation : "",
+  prtNote : ""
 };
 
 
@@ -33,14 +36,15 @@ const useStyle = makeStyles((theme) => ({
       margin: theme.spacing(1),
     },
     "& .MuiButtonBase-root": {
-      margin: theme.spacing(1, 1, 1, 1),
+      margin: theme.spacing(1, 1, 1, 0),
     },
     "& .go2646822163": {
-      margin: "0px 0px 0px 8px",
+      margin: "0px 0px 0px 0px",
     },
   },
 }));
 
+// eslint-disable-next-line
 Date.prototype.toJSON = function () {
   return moment(this).format();
 };
@@ -49,7 +53,6 @@ function NewPracticeForm() {
   const [values, setValues] = useState(initialValues);
   const [selected, setSelected] = useState([]);
   const classes = useStyle();
-
   const history = useHistory();
 
   const handleSubmit = (e) => {
@@ -67,6 +70,8 @@ function NewPracticeForm() {
         endDateTime: new Date(
           values.prtDate.getTime() + values.prtDuration * 60000
         ),
+        location: values.prtLocation,
+        note: values.prtNote,
         skills: getSelectedSkill(selected),
         userId: 1,
       }),
@@ -115,16 +120,30 @@ function NewPracticeForm() {
 
   return (
     <form className={classes.root}>
-      <Grid container>
-        <Grid item xs={12}>
-          <TextField
-            id="outlined-search"
-            variant="outlined"
-            label="Title"
-            name="prtTitle"
-            value={values.prtTitle}
-            onChange={handleInputChange}
-          />
+      <Grid container spacing={1}>
+        <Grid item xs={8}>
+            <TextField
+              id="outlined-search"
+              variant="outlined"
+              label="Title"
+              name="prtTitle"
+              fullWidth
+              value={values.prtTitle}
+              onChange={handleInputChange}
+            />  
+            </Grid> 
+             <Grid item xs={4}>   
+            <TextField
+              id="outlined-search"
+              variant="outlined"
+              label="Lieu"
+              name="prtLocation"
+              fullWidth
+              value={values.prtLocation}
+              onChange={handleInputChange}
+            /> 
+        </Grid>
+        <Grid item xs={8}>
           <FormControl>
             <FormLabel> Practice Date </FormLabel>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -135,16 +154,20 @@ function NewPracticeForm() {
               />
             </MuiPickersUtilsProvider>
           </FormControl>
-
+        
           <TextField
             id="outlined-search"
             variant="outlined"
             label="Duration (minutes)"
             name="prtDuration"
+            inputProps={{
+              maxLength: 2,
+              length: 4
+            }}
             value={values.prtDuration}
             onChange={handleInputChange}
           />
-
+          
           <FormControl>
             <FormLabel>Ring</FormLabel>
             <RadioGroup
@@ -165,16 +188,29 @@ function NewPracticeForm() {
               />
             </RadioGroup>
           </FormControl>
+      
+
         </Grid>
         <Grid item xs={12}>
-          <SkillsSelection
-            
+          <SkillsSelection            
             value={selected}
             onChange={setSelected}
             labelledBy={"Selects"}
             overrideStrings={{ selectSomeItems: "Select Skills to work" }}
           />
         </Grid>
+        <Grid item xs={12}>
+        <TextareaAutosize
+              name="prtNote"
+              rowsMax={4}
+              rowsMin={3} 
+              placeholder="Notes"
+              defaultValue={values.prtNote}
+              value={values.prtNote}
+              style={{ width: "75%" }}
+              onChange={handleInputChange}
+        />
+        </Grid>  
         <Grid container justify="flex-end" alignItems="baseline">
           <Button variant="contained" color="secondary" onClick={handleSubmit}>
             Generate

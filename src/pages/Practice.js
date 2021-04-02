@@ -8,15 +8,12 @@ import { ThemeProvider } from "@material-ui/core/styles";
 import { Container, Paper } from "@material-ui/core";
 //import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
 
 import Grid from "@material-ui/core/Grid";
 import "./Practice.css";
 
-import { Table, Thead, Tbody, Tr, Th, Td } from "react-super-responsive-table";
+import { Table, Tr, Th, Td } from "react-super-responsive-table";
 import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
 
 class Practice extends React.Component {
@@ -25,7 +22,7 @@ class Practice extends React.Component {
     this.state = {
       pId: null,
       practices: [],
-      informations: []
+      informations: [],
     };
 
     if (props.location.pathname != null) {
@@ -44,6 +41,7 @@ class Practice extends React.Component {
     this.fetchDrills();
   }
 
+  //Get all defined drills for the practice
   fetchDrills() {
     // Simple POST request with a JSON body using fetch
     const requestOptions = {
@@ -62,6 +60,7 @@ class Practice extends React.Component {
       });
   }
 
+  //Get meta information on the practice
   fetchInfoPractice() {
     // Simple POST request with a JSON body using fetch
     const requestOptions = {
@@ -83,21 +82,20 @@ class Practice extends React.Component {
   render() {
     let blockPat;
     if (this.state.practices != null) {
-      blockPat = this.state.practices.map((x) => <DrillView urlPractice={x} lang='FR' />);
+      blockPat = this.state.practices.map((x) => (
+        <DrillView urlPractice={x} lang="FR" />
+      ));
     }
-    
-    if ( this.state.informations == null )
-    {
-      return ("Error: No Exercice Found");
- 
+
+    if (this.state.informations == null) {
+      return "Error: No Exercice Found";
     }
-   
-    let  info = this.state.informations[0];
+
+    let info = this.state.informations[0];
     //format
     let datePractice = new Date(info.startdtm);
 
     return (
-
       <ThemeProvider theme={themeMagic}>
         <div className="practice">
           <NavBar />
@@ -107,31 +105,27 @@ class Practice extends React.Component {
                 <Table className="tableInfo">
                   <Tr>
                     <Th className="thInfo">­Titre</Th>
-                    <Td className="tdInfo">
-                      {info.title}
-                    </Td>
+                    <Td className="tdInfo">{info.title}</Td>
                   </Tr>
                   <Tr>
                     <Th className="thInfo">Date</Th>
                     <Td className="tdInfo">
-                    {datePractice.toLocaleString('fr-CA', {
-                                            year: 'numeric',
-                                            month: '2-digit',
-                                            day: '2-digit',
-                                            hour: 'numeric',
-                                            minute: 'numeric'
-                                          })}
-
-
+                      {datePractice.toLocaleString("fr-CA", {
+                        year: "numeric",
+                        month: "2-digit",
+                        day: "2-digit",
+                        hour: "numeric",
+                        minute: "numeric",
+                      })}
                     </Td>
                   </Tr>
                   <Tr>
                     <Th className="thInfo">Lieu</Th>
-                    <Td className="tdInfo">A VENIR</Td>
+                    <Td className="tdInfo">{info.field} ( {info.fullice? "Pleine Glace" : "Demi-Glace"} ) </Td>
                   </Tr>
                   <Tr>
                     <Th className="thInfo">Note</Th>
-                    <Td className="tdInfo">A venir</Td>
+                    <Td className="tdInfo">{info.note}</Td>
                   </Tr>
                 </Table>
               </Grid>
