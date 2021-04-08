@@ -2,6 +2,7 @@ import React from 'react';
 import Home from '../pages/Home.js';
 import Practice from '../pages/Practice.js'
 import Drill from '../pages/Drill.js'
+import UserPractices from '../pages/UserPractices.js'
 
 import {
   Switch,
@@ -14,6 +15,7 @@ function RoutesHopge() {
         <Switch>
           <Route path="/Practices/:id" component={Practice} />
           <Route path="/Practice" component={Practice} />
+          <Route path="/MyPractices" component={UserPractices} />
           <Route path="/Drill" component={Drill} />
           <Route path="/" component={Home} />
        </Switch>
