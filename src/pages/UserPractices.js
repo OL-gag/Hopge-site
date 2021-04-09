@@ -1,8 +1,6 @@
 import React from 'react';
-import { themeMagic } from '../theme.js';
-import NavBar from './NavBar.js'
-import { MuiThemeProvider } from '@material-ui/core/styles';
 import PracticesList from '../components/PracticesList.js';
+import HopgePage from '../components/HopgePage.js';
 
 class UserPractices extends React.Component {
     constructor(props) {
@@ -16,13 +14,9 @@ class UserPractices extends React.Component {
     }
 
     render() {
+
         return (  
-        <MuiThemeProvider theme={themeMagic}>    
-            <div className='App'>
-                <NavBar/> 
-                <PracticesList/>
-            </div>
-            </MuiThemeProvider>  
+        <HopgePage page={<PracticesList/>} message="Here All your practive"></HopgePage> 
         )
     }
 }
