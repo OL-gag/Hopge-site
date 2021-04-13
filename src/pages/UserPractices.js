@@ -1,24 +1,21 @@
-import React from 'react';
-import PracticesList from '../components/PracticesList.js';
-import HopgePage from '../components/HopgePage.js';
+import React from "react";
+import PracticesList from "../components/PracticesList.js";
+import HopgePage from "../components/HopgePage.js";
 
 class UserPractices extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-          pId: null,
-          practices: [],
-          informations: [],
-        };   
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
 
-    }
-
-    render() {
-
-        return (  
-        <HopgePage page={<PracticesList/>} message="Here All your practive"></HopgePage> 
-        )
-    }
+  render() {
+    return (
+      <HopgePage
+        page={<PracticesList />}
+        message="Here All your practive"
+      ></HopgePage>
+    );
+  }
 }
 
 export default UserPractices;

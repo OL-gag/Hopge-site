@@ -1,21 +1,15 @@
-import React from 'react';
-import { themeMagic } from '../theme.js';
+import React from "react";
+import HopgePage from "../components/HopgePage.js";
 
-import NavBar from './NavBar.js'
+class Home extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
 
-import CreatePratice from './CreatePratice.js'
-import { MuiThemeProvider } from '@material-ui/core/styles';
-
-function Home()
-{
-    return (
-        <MuiThemeProvider theme={themeMagic}>    
-        <div className='App'>
-            <NavBar/> 
-            <CreatePratice/>
-        </div>
-        </MuiThemeProvider>  
-    );
+  render() {
+    return <HopgePage> Home to build </HopgePage>;
+  }
 }
 
 export default Home;
