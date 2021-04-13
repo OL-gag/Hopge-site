@@ -2,7 +2,7 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import { Container, Paper } from '@material-ui/core';
 
-import NewDrillForm from '../components/NewDrillForm';
+import NewDrillForm from './NewDrillForm';
 
 import {useLocation} from "react-router-dom";
 

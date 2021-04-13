@@ -2,22 +2,14 @@ import React from 'react';
 import { themeMagic } from '../theme.js';
 import NavBar from '../pages/NavBar.js'
 import { MuiThemeProvider } from '@material-ui/core/styles';
-import { Container, Paper } from '@material-ui/core';
-import PracticesList from '../components/PracticesList.js';
+import { Container } from '@material-ui/core';
+import HopgeTopMessage from './HopgeTopMessage.js';
 import './HopgePage.css';
 import styled from './Styles.js';
 
-const PaperMessage = styled(Paper)({
-        padding : '20px 20px',
-        backgroundColor : '#a3a5c3'
-  });
 
 const HopgeContainer = styled(Container)({
     padding : '20px 20px',
-});
-
-const HopgeContent = styled(Container)({
-    padding : '20px 0px 0px 0px',
 });
 
 
@@ -30,13 +22,24 @@ class HopgePage extends React.Component {
     }
 
     render() {
+
+        var message = <div></div>;
+        if ( this.props.message != null )
+        {
+            message = <HopgeTopMessage message={this.props.message}> </HopgeTopMessage>;
+        }
+        if ( this.props.paper != null ) //Already formated TopMessage
+        {
+            message = this.props.paper; 
+        }
+
         return (  
         <MuiThemeProvider theme={themeMagic}>    
             <div className='App'>
                 <NavBar/> 
                 <HopgeContainer>
-                    <PaperMessage> {this.props.message}  </PaperMessage>
-                    <HopgeContent>{this.props.page} </HopgeContent>
+                    {message}                    
+                    <Container>{this.props.page} </Container>
                 </HopgeContainer>               
             </div>
             </MuiThemeProvider>  
