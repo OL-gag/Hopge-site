@@ -33,11 +33,11 @@ class HopgeTopMessage extends React.Component {
         {
             return (<PaperMessage>{this.state.message}</PaperMessage>) ;
         }
-        else if ( this.state.typeMessage == "succes") //could we have an enum ?
+        else if ( this.state.typeMessage === "succes") //could we have an enum ?
         {
             return (<PaperMessageSucces>{this.state.message}</PaperMessageSucces>) ;
         }
-        else if ( this.state.typeMessage == "error") 
+        else if ( this.state.typeMessage === "error") 
         {
             return (<PaperMessageError>{this.state.message}</PaperMessageError>) ;
         }
