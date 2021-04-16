@@ -1,5 +1,5 @@
 import React from "react";
-import CreateDrill from "../components/CreateDrill.js";
+import NewDrillForm from "../components/NewDrillForm.js";
 import HopgePage from "../components/HopgePage.js";
 import HopgeTopMessage from "../components/HopgeTopMessage.js";
 
@@ -15,7 +15,7 @@ class Drill extends React.Component {
     var displayMessage = this.drillMessage();
 
     return (
-      <HopgePage page={<CreateDrill />} paper={displayMessage}></HopgePage>
+      <HopgePage page={<NewDrillForm />} paper={displayMessage}></HopgePage>
     );
   }
 

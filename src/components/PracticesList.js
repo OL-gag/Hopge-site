@@ -1,11 +1,18 @@
 import React from "react";
-import Table from '@material-ui/core/Table';
+
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import './PracticesList.css';
+import AssignmentIcon from '@material-ui/icons/Assignment';
+import { IconButton } from '@material-ui/core';
+import Grid from "@material-ui/core/Grid";
+import { Table, Tr, Th, Td, Tbody, Thead } from "react-super-responsive-table";
+import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
+import { Redirect } from 'react-router-dom'
 
 class PracticesList extends React.Component {
   constructor(props) {
@@ -35,44 +42,78 @@ class PracticesList extends React.Component {
       });
   }
 
-  render() {
-    var tbPractice = "";
-    if (this.state.practices != null) {
-        tbPractice = this.state.practices.map((x) => (
-          <tr><td>{x.title} </td></tr>
-        ));
-      }
+  getDatePractice(dt)
+  {
+    var newDate = new Date(dt);
+    return newDate.toLocaleString("fr-CA", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "numeric",
+      minute: "numeric",
+    }).replace(/,/g, "");
+  }
 
+  classOfTheDay(dt)
+  {
+    var someDate = new Date(dt);
+ 
+    const today = new Date()
+    if ( someDate.getDate() == today.getDate() &&
+      someDate.getMonth() == today.getMonth() &&
+      someDate.getFullYear() == today.getFullYear() )
+      {
+        return "today"
+      }
+    return "normal";
+  }
+
+  emptyField(field) //bug with the grid when there is an empty string
+  {
+     if (field == '')
+      return null;
+
+     return field;
+  }
+
+  openPractice(id)
+  {
+    return <Redirect to={'/Practices/' + id} /> //not working
+  }
+
+  render() {
+    if ( this.state.practices.length == 0 ) return ("")
     return (
-        <TableContainer component={Paper}>
-        <Table aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Titre</TableCell>
-              <TableCell align="right">Date</TableCell>
-              <TableCell align="right">Durée</TableCell>
-              <TableCell align="right">Lieu</TableCell>
-              <TableCell align="right">Pleine Glace</TableCell>
-              <TableCell align="right">Afficher</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
+      <Grid className="GridPractice">
+        <Table aria-label="simple table" className="tablePractice">
+          <Thead>
+            <Tr>
+              <Th>Titre</Th>
+              <Th>Date</Th>
+              <Th>Durée</Th>
+              <Th>Lieu</Th>
+              <Th>Pleine Glace</Th>
+              <Th>Afficher</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
             { this.state.practices.map((row)=> (
-              <TableRow key={row.title}>
-                <TableCell component="th" scope="row">
-                  {row.title}
-                </TableCell>
-                <TableCell align="right">{row.startdtm}</TableCell>
-                <TableCell align="right">{row.duration}</TableCell>
-                <TableCell align="right">{row.field}</TableCell>
-                <TableCell align="right">{row.fullice}</TableCell>
-                <TableCell align="right">View Icon</TableCell>
-              </TableRow>
+
+                <Tr key={row.title} className={this.classOfTheDay(row.startdtm)}>           
+                <Td>{row.title}</Td>
+                <Td align="center">
+                  { this.getDatePractice(row.startdtm) }</Td>
+                <Td align="center">{row.duration}</Td>
+                <Td align="center">{this.emptyField(row.field)}</Td>
+				        <Td align="center">{this.state.practices[0].fullice ? "Oui" : "Non"}</Td>
+                <Td align="center"><IconButton onClick={this.openPractice(row.practice_id)}><AssignmentIcon ></AssignmentIcon></IconButton></Td>
+              </Tr>
             ))
             }
-          </TableBody>
+          </Tbody>
         </Table>
-      </TableContainer>
+      </Grid>
+   
 
     );
   }

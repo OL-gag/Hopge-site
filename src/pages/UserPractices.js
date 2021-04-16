@@ -2,6 +2,7 @@ import React from "react";
 import PracticesList from "../components/PracticesList.js";
 import HopgePage from "../components/HopgePage.js";
 
+
 class UserPractices extends React.Component {
   constructor(props) {
     super(props);
@@ -10,7 +11,8 @@ class UserPractices extends React.Component {
 
   render() {
     return (
-      <HopgePage
+ 
+    <HopgePage
         page={<PracticesList />}
         message="Here All your practive"
       ></HopgePage>
