@@ -1,0 +1,24 @@
+.tablePractice
+{
+  
+    border-collapse: collapse;
+    border: 1px solid black;
+    border-width: 2pt;
+}
+
+table, td, th {
+    border: 1px solid black;
+    font-size: 14pt;
+    font-family: Tahoma, sans-serif;
+  }
+
+.GridPractice
+{
+    padding: 20px 0px;
+}
+
+.today
+{
+    background: #7a9aac;
+}
+  
