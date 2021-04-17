@@ -1,0 +1,42 @@
+.tablePractice
+{  
+    border-collapse: collapse;
+    border: 1px solid black;
+    border-width: 2pt;     
+}
+
+:local(.Table) {
+    border: 1px solid black;
+    font-size: 14pt;
+    font-family: Tahoma, sans-serif;
+  }
+
+.topRow{
+    border: 1px solid black;
+    font-size: 14pt;
+    font-family: Tahoma, sans-serif;
+    background-color: #a3a5c3;
+  }
+
+.dataRow{
+    border: 1px solid black;
+    font-size: 14pt;
+    font-family: Tahoma, sans-serif;
+}
+
+.today
+{
+    border: 1px solid black;
+    font-size: 14pt;
+    font-family: Tahoma, sans-serif;
+    background: #ccdee4;
+}
+
+.GridPractice
+{
+    padding: 20px 0px;
+    
+}
+
+
+  

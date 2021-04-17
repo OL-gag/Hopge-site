@@ -5,9 +5,11 @@ import { Paper } from "@material-ui/core";
 import TableBody from "@material-ui/core/TableBody";
 import TableContainer from "@material-ui/core/TableContainer";
 import Grid from "@material-ui/core/Grid";
-import "./PracticeView.css";
 import { Table, Tr, Th, Td } from "react-super-responsive-table";
 import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
+
+import * as styles from './PracticeView.module.css'
+
 
 class PracticeView extends React.Component {
   constructor(props) {
@@ -80,14 +82,15 @@ class PracticeView extends React.Component {
       ));
     }
 
-    if (
-      this.state.informations === null ||
-      this.state.informations.length === 0
-    ) {
-      return "Error: No Exercice Found";
+    if (this.state.informations == null) {
+      return "Error: No exercices Found";
     }
 
     let info = this.state.informations[0];
+    if ( info == null )
+    {
+      return "Error: not able to find practice info";
+    }
     //format
     let datePractice = new Date(info.startdtm);
 
@@ -95,14 +98,14 @@ class PracticeView extends React.Component {
       <>
         <Grid container spacing={3}>
           <Grid item xs={12}>
-            <Table className="tableInfo">
-              <Tr>
-                <Th className="thInfo">­Titre</Th>
-                <Td className="tdInfo">{info.title}</Td>
+            <Table className={styles.tableInfo}>
+              <Tr className={styles.thInfo}>
+                <Th>­Titre</Th>
+                <Td>{info.title}</Td>
               </Tr>
-              <Tr>
-                <Th className="thInfo">Date</Th>
-                <Td className="tdInfo">
+              <Tr className={styles.thInfo}>
+                <Th>Date</Th>
+                <Td>
                   {datePractice.toLocaleString("fr-CA", {
                     year: "numeric",
                     month: "2-digit",
@@ -112,16 +115,16 @@ class PracticeView extends React.Component {
                   })}
                 </Td>
               </Tr>
-              <Tr>
-                <Th className="thInfo">Lieu</Th>
-                <Td className="tdInfo">
+              <Tr className={styles.thInfo}>
+                <Th>Lieu</Th>
+                <Td>
                   {info.field} ( {info.fullice ? "Pleine Glace" : "Demi-Glace"}{" "}
                   ){" "}
                 </Td>
               </Tr>
-              <Tr>
-                <Th className="thInfo">Note</Th>
-                <Td className="tdInfo">{info.note}</Td>
+              <Tr className={styles.thInfo}>
+                <Th>Note</Th>
+                <Td>{info.note}</Td>
               </Tr>
             </Table>
           </Grid>
