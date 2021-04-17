@@ -1,18 +1,13 @@
 import React from "react";
+import { withRouter } from "react-router-dom";
 
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import './PracticesList.css';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import { IconButton } from '@material-ui/core';
 import Grid from "@material-ui/core/Grid";
 import { Table, Tr, Th, Td, Tbody, Thead } from "react-super-responsive-table";
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 import { Redirect } from 'react-router-dom'
+import * as styles from './PracticesList.module.css'
 
 class PracticesList extends React.Component {
   constructor(props) {
@@ -63,9 +58,9 @@ class PracticesList extends React.Component {
       someDate.getMonth() == today.getMonth() &&
       someDate.getFullYear() == today.getFullYear() )
       {
-        return "today"
+        return styles.today;
       }
-    return "normal";
+    return styles.tablePractice;
   }
 
   emptyField(field) //bug with the grid when there is an empty string
@@ -75,38 +70,45 @@ class PracticesList extends React.Component {
 
      return field;
   }
+ 
+  routeChange=(id)=> {
+    let path = '/Practices/' + id;
+  
+    this.props.history.push(path);
+  }
 
   openPractice(id)
   {
+    
     return <Redirect to={'/Practices/' + id} /> //not working
   }
 
   render() {
     if ( this.state.practices.length == 0 ) return ("")
     return (
-      <Grid className="GridPractice">
-        <Table aria-label="simple table" className="tablePractice">
+      <Grid className={styles.GridPractice}>
+        <Table aria-label="simple table" className={styles.tablePractice} >
           <Thead>
-            <Tr>
-              <Th>Titre</Th>
-              <Th>Date</Th>
-              <Th>Durée</Th>
-              <Th>Lieu</Th>
-              <Th>Pleine Glace</Th>
-              <Th>Afficher</Th>
+            <Tr className={styles.tablePractice}>
+              <Th className={styles.topRow}>Titre</Th>
+              <Th className={styles.topRow}>Date</Th>
+              <Th className={styles.topRow}>Durée</Th>
+              <Th className={styles.topRow}>Lieu</Th>
+              <Th className={styles.topRow}>Pleine Glace</Th>
+              <Th className={styles.topRow}>Afficher</Th>
             </Tr>
           </Thead>
           <Tbody>
             { this.state.practices.map((row)=> (
 
                 <Tr key={row.title} className={this.classOfTheDay(row.startdtm)}>           
-                <Td>{row.title}</Td>
-                <Td align="center">
+                <Td className={styles.dataRow}>{row.title}</Td>
+                <Td className={styles.dataRow} align="center" >
                   { this.getDatePractice(row.startdtm) }</Td>
-                <Td align="center">{row.duration}</Td>
-                <Td align="center">{this.emptyField(row.field)}</Td>
-				        <Td align="center">{this.state.practices[0].fullice ? "Oui" : "Non"}</Td>
-                <Td align="center"><IconButton onClick={this.openPractice(row.practice_id)}><AssignmentIcon ></AssignmentIcon></IconButton></Td>
+                <Td className={styles.dataRow} align="center">{row.duration}</Td>
+                <Td className={styles.dataRow}  align="center">{this.emptyField(row.field)}</Td>
+				        <Td className={styles.dataRow}  align="center">{this.state.practices[0].fullice ? "Oui" : "Non"}</Td>
+                 <Td className={styles.dataRow}  align="center"><IconButton onClick={() => this.routeChange(row.practice_id)}><AssignmentIcon ></AssignmentIcon></IconButton></Td>
               </Tr>
             ))
             }
@@ -119,4 +121,4 @@ class PracticesList extends React.Component {
   }
 }
 
-export default PracticesList;
+export default withRouter(PracticesList);
