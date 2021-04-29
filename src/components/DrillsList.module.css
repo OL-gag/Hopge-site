@@ -1,0 +1,19 @@
+.filterBox
+{
+    padding: 10px;
+    margin: initial;
+    margin: 5px 0px 20px 0px;
+}
+
+.itemsGrid
+{
+    color:black;
+    margin: 0px 10px 0px 0px;
+    font-size: 1rem;
+    font-family: Comic Sans MS;
+    font-weight: 400;
+}
+
+.buttonX {
+    margin: 10px 10px 10px 10px;
+}

@@ -1,5 +1,6 @@
 import React from "react";
 import HopgePage from "../components/HopgePage.js";
+import DrillsList from "../components/DrillsList";
 
 class Catalog extends React.Component {
   constructor(props) {
@@ -8,19 +9,11 @@ class Catalog extends React.Component {
   }
 
   render() {
-    var catlogPage = (
-      <table>
-        <tr>
-          <td>test</td>
-        </tr>
-      </table>
-    );
-
     return (
       <HopgePage
-        page={catlogPage}
-        message="Here the list of all HOPGE drill, enjoy!"
-      ></HopgePage>
+        page={<DrillsList />}
+        message="Here the list of all HOPGE drill, enjoy!">
+      </HopgePage>
     );
   }
 }
